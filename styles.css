@@ -1,0 +1,147 @@
+/* styles.css */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(90deg, rgba(32, 15, 6, 1) 19%, rgba(139, 88, 30, 1) 37%, rgba(32, 15, 6, 1) 60%, rgba(139, 88, 30, 1) 100%);
+  color: #ecf0f1;
+  padding: 10px;
+  margin: 0; /* Remove margem padrão do body */
+}
+
+a {
+  color: #ffc107;
+  transition: color 0.3s ease; /* Transição suave para a cor */
+}
+
+a:hover {
+  color: #3498db; /* Muda a cor ao passar o mouse */
+}
+
+.jumbotron {
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro com transparência */
+  font-size: 30px;
+  padding: 50px; /* Reduzido para melhorar o layout */
+  border-radius: 10px; /* Cantos arredondados */
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra ao redor */
+}
+
+h1 {
+  margin: 20px 0; /* Espaçamento superior e inferior */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.table th, .table td {
+  padding: 12px; /* Aumentado para mais espaço */
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.event-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px; /* Maior espaço entre os cartões */
+}
+
+.event-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px; /* Aumentado para mais espaço */
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 260px; /* Largura ajustada */
+  margin-bottom: 20px; /* Espaço inferior */
+  transition: transform 0.3s, box-shadow 0.3s; /* Transição suave para hover */
+}
+
+.event-card:hover {
+  transform: translateY(-5px); /* Efeito de levantar ao passar o mouse */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Sombra ao passar o mouse */
+}
+
+.event-logo img {
+  width: 50px; /* Aumentado para melhor visibilidade */
+  height: 50px;
+  border-radius: 8px; /* Cantos arredondados */
+}
+
+.event-title {
+  font-size: 16px; /* Aumentado para melhor legibilidade */
+  font-weight: bold;
+}
+
+.event-date {
+  font-size: 14px; /* Aumentado para melhor legibilidade */
+  color: #555;
+}
+
+.btn-eventos {
+  background-color: #a1962d;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 20px;
+  display: inline-block; /* Certifique-se de que o botão é exibido corretamente */
+  transition: background-color 0.3s; /* Para transição suave ao passar o mouse */
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.btn-eventos:hover {
+  animation: shake 0.5s;
+}
+
+.author {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  color: rgb(37, 170, 48);
+}
+
+.tips {
+  background-color: rgba(255, 255, 255, 0.1); /* Fundo claro com transparência */
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px; /* Espaço acima */
+}
+
+hr {
+  border: none;
+  height: 3px; /* Altura aumentada */
+  background-color: rgb(248, 255, 249);
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+.events_data {
+  display: none; /* Mantém a tabela oculta inicialmente */
+  text-align: center;
+}
+
+.table {
+  background-color: rgba(255, 255, 255, 0.1); /* Fundo levemente transparente */
+  border-radius: 5px; /* Cantos arredondados */
+}
+
+.table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05); /* Fundo alternado para linhas */
+}
+
+.table th {
+  background-color: rgba(255, 255, 255, 0.2); /* Fundo para cabeçalhos */
+}

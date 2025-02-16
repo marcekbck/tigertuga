@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - Tigerghost</title>
+    
+    <meta property="og:title" content="Eventos - Tigerghost">
+    <meta property="og:description" content="Descobre todos os eventos deste mês!">
+    <meta property="og:image" content="preview.jpg">
+    <meta property="og:url" content="https://tigertuga.netlify.app">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">⚔️ Eventos - Tigerghost & Azrael 📅</h1>
+        <p class="lead">Descobre todos os eventos deste mês!</p>
+        <a class="btn-eventos" onclick="toggleEvents()">Ver Eventos</a>
+    </div>
+    <hr>
+    <div class="jumbotron" id="eventos">
+        <div class="event-container">
+            <!-- Cartão de Evento 1 -->
+            <div class="event-card">
+                <div class="event-logo">
+                    <img src="https://tr-wiki.metin2.gameforge.com/images/c/c0/Etkinlik_sembolu.png" alt="Logo de eventos">
+                </div>
+                <div class="event-details">
+                    <h2 class="event-title">
+                        <a href="https://board.pt.metin2.gameforge.com/index.php?board/86-eventos-metin2-pt/" target="_blank">Eventos adicionais</a>
+                    </h2>
+                    <p class="event-date">Não percas estes eventos EXTRA</p>
+                </div>
+                <div class="negotiable">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="events_data" id="all_events">
+    <h1>⚔️ Eventos deste mês 📅</h1>
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Dia</th>
+                <th>Evento 15h-19h</th>
+                <th>Negociável</th>
+                <th>Armazenável</th>
+                <th>Evento 19h-23h</th>
+                <th>Negociável</th>
+                <th>Armazenável</th>
+            </tr>
+        </thead>
+        <tbody id="event-table-body"></tbody>
+    </table>
+</div>
+
+    <script>
+        // Função para verificar se uma string é uma URL de imagem válida
+        function isImageURL(url) {
+            return (url.match(/\.(jpeg|jpg|gif|png|svg)$/) != null);
+        }
+
+        // Função para carregar o CSV de eventos permanentes
+        async function loadEvents() {
+            const response = await fetch('events.csv');
+            const data = await response.text();
+            const rows = data.trim().split('\n').slice(1); // Ignorar cabeçalho
+            const events = {};
+
+            rows.forEach(row => {
+                const columns = row.split(',').map(col => col.trim());
+                if(columns.length >= 5){
+                    const eventName = columns[0];
+                    const logoURL = columns[1];
+                    const websiteURL = columns[2];
+                    const negotiable = columns[3];
+                    const storable = columns[4];
+
+                    events[eventName] = {
+                        logo: logoURL,
+                        website: websiteURL,
+                        negotiable: negotiable,
+                        storable: storable
+                    };
+                } else {
+                    console.warn(`Linha inválida em events.csv: ${row}`);
+                }
+            });
+            return events;
+        }
+        const months = [
+            "janeiro", "fevereiro", "março", "abril", "maio", "junho", 
+            "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+        ];
+        const currentMonth = months[new Date().getMonth()];
+        console.log(currentMonth);
+        const fileName = `output_${currentMonth}.csv`;
+        // Função para carregar o CSV de eventos mensais
+        async function loadMonthlyEvents() {
+            const response = await fetch(fileName);
+            const data = await response.text();
+            const rows = data.trim().split('\n').slice(1); // Ignorar cabeçalho
+            const monthlyEvents = [];
+
+            rows.forEach(row => {
+                const columns = row.split(',').map(col => col.trim());
+                if(columns.length >= 3){
+                    monthlyEvents.push({
+                        day: columns[0],
+                        eventA: columns[1],
+                        eventB: columns[2]
+                    });
+                } else {
+                    console.warn(`Linha inválida em output.csv: ${row}`);
+                }
+            });
+            return monthlyEvents;
+        }
+
+        // Função auxiliar para formatar a coluna "Armazenável"
+        function formatStorable(storable) {
+            if (isImageURL(storable)) {
+                return `<img src="${storable}" alt="Armazenável" style="width:24px; height:24px;">`;
+            } else {
+                return storable;
+            }
+        }
+
+        // Função para exibir os eventos na tabela
+        async function displayEvents() {
+            const events = await loadEvents();
+            const monthlyEvents = await loadMonthlyEvents();
+            const tableBody = document.getElementById('event-table-body');
+
+            monthlyEvents.forEach(row => {
+                const day = row.day;
+                const eventAName = row.eventA;
+                const eventBName = row.eventB;
+
+                const eventA = events[eventAName];
+                const eventB = events[eventBName];
+
+                if (!eventA || !eventB) {
+                    console.warn(`Evento não encontrado para o dia ${day}: ${eventAName} ou ${eventBName}`);
+                    return; // Pular esta linha se algum evento não for encontrado
+                }
+
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${day}</td>
+                    <td>
+                        <a href="${eventA.website}" target="_blank">
+                            ${eventAName} <img src="${eventA.logo}" alt="${eventAName} Logo" style="width:24px; height:24px;">
+                        </a>
+                    </td>
+                    <td>${eventA.negotiable}</td>
+                    <td>${formatStorable(eventA.storable)}</td>
+                    <td>
+                        <a href="${eventB.website}" target="_blank">
+                            ${eventBName} <img src="${eventB.logo}" alt="${eventBName} Logo" style="width:24px; height:24px;">
+                        </a>
+                    </td>
+                    <td>${eventB.negotiable}</td>
+                    <td>${formatStorable(eventB.storable)}</td>
+                `;
+                tableBody.appendChild(newRow);
+            });
+        }
+
+        displayEvents();
+    </script>
+<script>
+    function smoothScroll(target, duration) {
+        const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+        const startPosition = window.scrollY;
+        const distance = targetPosition - startPosition;
+        let startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function ease(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+    }
+
+    // Função para alternar a visibilidade do contêiner de eventos
+    function toggleEvents() {
+        var eventos = document.getElementById('all_events');
+        if (eventos.style.display === 'none' || eventos.style.display === '') {
+            eventos.style.display = 'block'; // Mostrar o conteúdo
+            // Scroll suave para a seção de eventos
+            smoothScroll(eventos, 1000); // Aumente o valor para um scroll mais lento
+        } else {
+            eventos.style.display = 'none'; // Esconder o conteúdo
+        }
+    }
+</script>
+    <div class="author">
+        <img src="https://img.icons8.com/?size=100&id=65646&format=png&color=000000" alt="discord logo" style="width: 15px; height: auto;">
+        <p>kubick#3223</p>
+    </div>
+    <div class="tips">
+        <p>Dicas:</p>
+        <ul>
+        <li>Para teres chance de dropar, não podes ter mais de 5 níveis de diferença da pedra metin.</li>
+        <li>No caso de boss's, não podes ter mais de 15 níveis de diferença.</li>
+        <li>Nos eventos de drop em monstros, monstros de tipo 4, têm a maior chance de drop.</li>
+        <li>Evento mineração realiza-se no centro do deserto.</li>
+        <li>Evento Super Metins:  Queda de 5 a 10 metins aglomeradas de nível25+ no mesmo sítio em todos os CHs.</li>
+        <li>Para o Puzzle de Pesca é aconselhado cana de carbono + livro de pesca.</li>
+        <li>Clica em cima do evento para informação adicional.</li>
+        </ul>
+    </div>
+</body>
+</html>

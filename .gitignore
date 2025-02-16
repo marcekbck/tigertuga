@@ -1,0 +1,23 @@
+# Ignorar diretórios do ambiente virtual Python
+venv/
+
+# Ignorar arquivos de cache do Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar arquivos específicos do VSCode
+.vscode/
+
+# Ignorar arquivos específicos do PyCharm
+.idea/
+
+# Ignorar arquivos do sistema macOS
+.DS_Store
+
+# Ignorar arquivos temporários
+*.swp
+*.bak
+
+# Ignorar arquivos de dependências do Node.js
+node_modules/
