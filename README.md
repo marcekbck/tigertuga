@@ -26,7 +26,9 @@ Não é necessário instalação. Basta acessar:
 ## 📬 Contato
 
 Caso tenhas sugestões ou queiras contribuir, entra em contato!
+
 Email: mferreira.professional@gmail.com
+
 Discord: kubick#3223
 ---
 📅 Site feito para a comunidade de Metin2! 🚀  
